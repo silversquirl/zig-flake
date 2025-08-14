@@ -16,8 +16,8 @@ jobs:
           - ubuntu-latest
           - macos-latest
         package:
-          - zig
-          - zig_0_14_1
+          - default
+          - zig_0_14_0
           - zig_0_9_0
           - zig_nightly
           - zig_nightly_2025_08_13
