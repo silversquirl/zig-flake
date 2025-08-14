@@ -23,7 +23,10 @@
       master = lib.last nightly;
     };
 
-  packages = pkgs:
-    builtins.mapAttrs (name: zigRelease: pkgs.callPackage ./package {inherit zigRelease;}) releases;
+  packages = pkgs: let
+    filtered = lib.filterAttrs (name: rel: rel ? ${pkgs.hostPlatform.system}) releases;
+    package = name: rel: pkgs.callPackage ./package {zigRelease = rel;};
+  in
+    builtins.mapAttrs package filtered;
 in
   builtins.mapAttrs (system: packages) nixpkgs.legacyPackages
