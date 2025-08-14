@@ -3,13 +3,18 @@
   inputs.nixpkgs.url = "nixpkgs";
   outputs = {nixpkgs, ...}: {
     packages = let
-      snakeify = builtins.replaceStrings ["." "-"] ["_" "_"];
+      lib = nixpkgs.lib;
+      snakeify = version:
+        lib.pipe version [
+          lib.versions.splitVersion # parse version
+          (lib.sublist 0 5) # strip commit hash
+          (lib.concatStringsSep "_") # recombine
+        ];
     in
       import ./flake-packages.nix {
         inherit nixpkgs;
-        stableName = r: "zig_${snakeify r._version}";
-        nightlyName = r: "zig_nightly_${snakeify r._date}";
-        defaultNightlyName = "zig_nightly";
+        name = kind: release: "zig_${snakeify release._version}";
+        defaultNightlyName = "nightly";
       };
   };
 }

@@ -4,8 +4,10 @@
   outputs = {nixpkgs, ...}: {
     packages = import ../flake-packages.nix {
       inherit nixpkgs;
-      stableName = r: r._version;
-      nightlyName = r: "master-${r._date}";
+      name = kind: release:
+        if kind == "nightly"
+        then "master-${release._date}"
+        else release._version;
       defaultNightlyName = "master";
     };
   };

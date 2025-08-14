@@ -1,7 +1,6 @@
 {
   nixpkgs,
-  stableName,
-  nightlyName,
+  name,
   defaultNightlyName,
 }: let
   inherit (nixpkgs) lib;
@@ -9,15 +8,15 @@
   stable = import ./releases/stable.nix;
   nightly = import ./releases/nightly.nix;
 
-  name = namer: value: {
-    inherit value;
-    name = namer value;
+  named = kind: release: {
+    name = name kind release;
+    value = release;
   };
 
   releases =
     builtins.listToAttrs (
-      map (name stableName) stable
-      ++ map (name nightlyName) nightly
+      map (named "stable") stable
+      ++ map (named "nightly") nightly
     )
     // {
       default = lib.last stable;
