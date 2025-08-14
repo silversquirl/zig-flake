@@ -17,15 +17,21 @@ jobs:
           - ubuntu-latest
           - macos-latest
         package:
-          - default
-          - nightly
-          - zig_0_14_0
-          - zig_0_9_0
-          - zig_0_15_0_dev_1519
+          - .#default
+          - .#nightly
+          - .#zig_0_14_0
+          - .#zig_0_9_0
+          - .#zig_0_15_0_dev_1519
+
+          - ./compat#default
+          - ./compat#master
+          - ./compat#"0.14.0"
+          - ./compat#"0.9.0"
+          - ./compat#master-2025-08-13
 
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
       - uses: nixbuild/nix-quick-install-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix run .#${{matrix.package}} env
+      - run: nix run '${{matrix.package}}' env
