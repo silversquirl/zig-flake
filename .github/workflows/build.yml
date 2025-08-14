@@ -11,6 +11,7 @@ concurrency:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         runner:
           - ubuntu-latest
