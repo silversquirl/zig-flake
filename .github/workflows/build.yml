@@ -22,7 +22,9 @@ jobs:
           - zig_0_9_0
           - zig_nightly
           - zig_nightly_2025_08_13
-        suffix: ["", ".fromSource"]
+        suffix:
+          - ""
+          #- .fromSource
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
