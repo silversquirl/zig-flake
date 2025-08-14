@@ -3,7 +3,7 @@
   hostPlatform,
   callPackage,
   zigRelease,
-  zigMirrors ? ../versions/community-mirrors.txt,
+  zigMirrors ? ../releases/community-mirrors.txt,
   zigVersion ? zigRelease._version,
 }: let
   fromSource = callPackage ./source.nix {

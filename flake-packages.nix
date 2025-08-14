@@ -5,8 +5,8 @@
 }: let
   inherit (nixpkgs) lib;
 
-  stable = import ./versions/stable.nix;
-  nightly = import ./versions/nightly.nix;
+  stable = import ./releases/stable.nix;
+  nightly = import ./releases/nightly.nix;
 
   name = namer: value: {
     inherit value;
