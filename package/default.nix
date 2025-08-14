@@ -1,6 +1,6 @@
 {
   lib,
-  targetPlatform,
+  hostPlatform,
   callPackage,
   zigRelease,
   zigMirrors ? ../versions/community-mirrors.txt,
@@ -14,7 +14,7 @@
     };
   };
 
-  system = targetPlatform.system;
+  system = hostPlatform.system;
   hasBinaryRelease = zigRelease ? ${system};
   binary =
     lib.throwIfNot hasBinaryRelease "Zig ${zigVersion} has no binary release for ${system}"

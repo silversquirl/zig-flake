@@ -1,16 +1,14 @@
 {
   description = "A Nix flake for the Zig programming language";
   inputs.nixpkgs.url = "nixpkgs";
-  outputs = {
-    self,
-    nixpkgs,
-  }: {
-    packages =
-      builtins.mapAttrs (
-        system: pkgs:
-          import ./versions {inherit pkgs;}
-          // {default = self.packages.${system}.zig;}
-      )
-      nixpkgs.legacyPackages;
+  outputs = {nixpkgs, ...}: {
+    packages = let
+      snakeify = builtins.replaceStrings ["." "-"] ["_" "_"];
+    in
+      import ./flake-packages.nix {
+        inherit nixpkgs;
+        stableName = r: "zig_${snakeify r._version}";
+        nightlyName = r: "zig_nightly_${snakeify r._date}";
+      };
   };
 }
