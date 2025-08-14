@@ -18,10 +18,6 @@
       filename = "zig-riscv64-linux-0.15.0-dev.1519+dd4e25cf4.tar.xz";
       shasum = "5c26cfa5e00be7c05cc5a73f2a1e45724044066fb62e05d9d1dd1cf9c3e2c2c4";
     };
-    src = {
-      filename = "zig-0.15.0-dev.1519+dd4e25cf4.tar.xz";
-      shasum = "ed20041b32591f1ef544e0690c5fda7f458443f2ad5be1ba335bc3347e297594";
-    };
     x86_64-darwin = {
       filename = "zig-x86_64-macos-0.15.0-dev.1519+dd4e25cf4.tar.xz";
       shasum = "26179d9fc1cb93c1e7fc2acb283f3a0ff17f2a57dda60e2f8d251c935472263a";

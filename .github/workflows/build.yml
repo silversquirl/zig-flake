@@ -14,7 +14,6 @@ jobs:
       matrix:
         runner:
           - ubuntu-latest
-          - ubuntu-latest-arm
           - macos-latest
         package:
           - zig
@@ -22,12 +21,10 @@ jobs:
           - zig_0_9_0
           - zig_nightly
           - zig_nightly_2025_08_13
-        suffix:
-          - ""
-          #- .fromSource
+
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
       - uses: nixbuild/nix-quick-install-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@main
-      - run: nix run .#${{matrix.package}}${{matrix.suffix}} env
+      - run: nix run .#${{matrix.package}} env
