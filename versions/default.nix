@@ -6,13 +6,15 @@
   latest = set: package (lib.last set);
   stable = import ./stable.nix;
   nightly = import ./nightly.nix;
+
+  snakeify = builtins.replaceStrings ["." "-"] ["_" "_"];
 in
   builtins.listToAttrs (
-    map (v: lib.nameValuePair "zig-${v._version}" v) stable
-    ++ map (v: lib.nameValuePair "zig-nightly-${v._date}" v) nightly
+    map (v: lib.nameValuePair "zig_${snakeify v._version}" (package v)) stable
+    ++ map (v: lib.nameValuePair "zig_nightly_${snakeify v._date}" (package v)) nightly
   )
   // rec {
-    zig = zig-latest;
-    zig-latest = latest stable;
-    zig-nightly = latest nightly;
+    zig = zig_latest;
+    zig_latest = latest stable;
+    zig_nightly = latest nightly;
   }

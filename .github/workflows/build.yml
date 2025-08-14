@@ -12,11 +12,19 @@ jobs:
   build:
     strategy:
       matrix:
-        runner: [ubuntu-latest, ubuntu-latest-arm, macos-latest]
-        version: ["", "-nightly", "-0.14.1", "-nightly-2025-08-13", "-0.9.0"]
+        runner:
+          - ubuntu-latest
+          - ubuntu-latest-arm
+          - macos-latest
+        package:
+          - zig
+          - zig_0_14_1
+          - zig_0_9_0
+          - zig_nightly
+          - zig_nightly_2025_08_13
         suffix: ["", ".fromSource"]
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4
       - uses: nixbuild/nix-quick-install-action@v31
-      - run: nix run .#zig${{matrix.version}}${{matrix.suffix}} env
+      - run: nix run .#${{matrix.package}}${{matrix.suffix}} env
