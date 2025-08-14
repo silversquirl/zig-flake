@@ -9,6 +9,7 @@
         inherit nixpkgs;
         stableName = r: "zig_${snakeify r._version}";
         nightlyName = r: "zig_nightly_${snakeify r._date}";
+        defaultNightlyName = "zig_nightly";
       };
   };
 }

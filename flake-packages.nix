@@ -2,6 +2,7 @@
   nixpkgs,
   stableName,
   nightlyName,
+  defaultNightlyName,
 }: let
   inherit (nixpkgs) lib;
 
@@ -20,7 +21,7 @@
     )
     // {
       default = lib.last stable;
-      master = lib.last nightly;
+      ${defaultNightlyName} = lib.last nightly;
     };
 
   packages = pkgs: let

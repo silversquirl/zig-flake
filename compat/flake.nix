@@ -6,6 +6,7 @@
       inherit nixpkgs;
       stableName = r: r._version;
       nightlyName = r: "master-${r._date}";
+      defaultNightlyName = "master";
     };
   };
 }
