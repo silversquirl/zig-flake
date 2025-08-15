@@ -1,5 +1,5 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i bash -p bash curl jq alejandra
+#!/usr/bin/env nix
+#!nix shell --inputs-from . nixpkgs#bash nixpkgs#curl nixpkgs#jq nixpkgs#alejandra -c bash
 # shellcheck shell=bash
 set -euo pipefail
 
