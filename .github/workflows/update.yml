@@ -22,7 +22,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Configure git
         run: |
-          git config --list # for testing
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
