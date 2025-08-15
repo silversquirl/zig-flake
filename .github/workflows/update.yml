@@ -12,6 +12,9 @@ on:
     # adds a way to subscribe to events in other repos, we wanna poll pretty often.
     - cron: '*/30 * * * *'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   update:
     runs-on: ubuntu-latest
