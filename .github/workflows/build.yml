@@ -30,4 +30,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: nixbuild/nix-quick-install-action@v31
+      - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: nix run '${{matrix.package}}' env
