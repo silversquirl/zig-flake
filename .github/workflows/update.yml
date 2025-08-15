@@ -28,5 +28,5 @@ jobs:
 
       - uses: nixbuild/nix-quick-install-action@v31
       - uses: DeterminateSystems/magic-nix-cache-action@main
-      - name: Update releases
-        run: ./update-releases.sh
+      - run: ./update-releases.sh
+      - run: git push
