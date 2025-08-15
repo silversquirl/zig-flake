@@ -1,5 +1,12 @@
 name: Update Releases
 on:
+  push:
+    paths:
+      - .github/workflows/update.yml
+      - update-releases.sh
+
+  workflow_dispatch:
+
   schedule:
     # Run every half hour. Actual changes happen way less frequently than this, but until github
     # adds a way to subscribe to events in other repos, we wanna poll pretty often.
