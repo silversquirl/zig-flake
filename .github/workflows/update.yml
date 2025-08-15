@@ -1,0 +1,22 @@
+name: Update Releases
+on:
+  schedule:
+    # Run every half hour. Actual changes happen way less frequently than this, but until github
+    # adds a way to subscribe to events in other repos, we wanna poll pretty often.
+    - cron: '*/30 * * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure git
+        run: |
+          git config --list # for testing
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - uses: nixbuild/nix-quick-install-action@v31
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Update releases
+        run: ./update-releases.sh
