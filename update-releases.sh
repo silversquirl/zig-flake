@@ -67,5 +67,5 @@ mirrors_commit_msg=$(
         '
 )
 
-git commit -m "$releases_commit_msg" releases/{stable,nightly}.nix
-git commit -m "$mirrors_commit_msg" releases/community-mirrors.txt
+git commit -m "$releases_commit_msg" releases/{stable,nightly}.nix || :
+git commit -m "$mirrors_commit_msg" releases/community-mirrors.txt || :
