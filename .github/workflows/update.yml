@@ -26,6 +26,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - uses: nixbuild/nix-quick-install-action@v31
-      - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: ./update-releases.sh
       - run: git push
