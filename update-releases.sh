@@ -46,6 +46,16 @@ printf '%s\n' "$comment" "$nightly" >releases/nightly.nix
 echo "Fetching community mirror list" >&2
 curl -Lo releases/community-mirrors.txt https://ziglang.org/download/community-mirrors.txt
 
+# Inform github actions of changes
+git diff --numstat | while IFS=$'\t' read -r add del file; do
+    # TODO: annotate with the modified line numbers
+    printf '::notice file=%s,title=%s modified::' "$file" "$file"
+    ((add > 0)) && printf '%d lines added' "$add"
+    ((add > 0 && del > 0)) && printf ', '
+    ((del > 0)) && printf '%d lines removed' "$del"
+    echo
+done
+
 echo "Generating commit message" >&2
 
 releases_commit_msg=$(
