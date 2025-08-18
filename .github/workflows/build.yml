@@ -23,6 +23,12 @@ jobs:
           - .#zig_0_9_0
           - .#zig_0_15_0_dev_1519
 
+          # Compatibility with zig-overlay
+          - .#master
+          - .#"0.14.0"
+          - .#"0.9.0"
+          - .#master-2025-08-13
+
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v4

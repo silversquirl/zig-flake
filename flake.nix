@@ -1,5 +1,5 @@
 {
-  description = "A Nix flake for the Zig programming language";
+  description = "A Nix flake for the Zig programming language, that also works as a drop-in replacement for mitchellh/zig-overlay";
   inputs.nixpkgs.url = "nixpkgs";
   outputs = {nixpkgs, ...}: {
     packages = let
@@ -19,14 +19,28 @@
         value = release;
       };
 
+      compatNamed = {
+        stable = release: {
+          name = release._version;
+          value = release;
+        };
+        nightly = release: {
+          name = "master-${release._date}";
+          value = release;
+        };
+      };
+
       releases =
         builtins.listToAttrs (
           map named stable
           ++ map named nightly
+          ++ map compatNamed.stable stable
+          ++ map compatNamed.nightly nightly
         )
         // {
           default = lib.last stable;
           nightly = lib.last nightly;
+          master = lib.last nightly;
         };
 
       packages = pkgs: let
