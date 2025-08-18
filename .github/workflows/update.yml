@@ -1,6 +1,8 @@
 name: Update Releases
 on:
   push:
+    branches-ignore:
+      - compat
     paths:
       - .github/workflows/update.yml
       - update-releases.sh
@@ -20,11 +22,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Configure git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - uses: nixbuild/nix-quick-install-action@v31
-      - run: ./update-releases.sh
+      - name: Update releases
+        run: ./update-releases.sh
       - run: git push
+
+      - name: Merge changes into compat branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git switch compat
+          git merge main
+          git push
