@@ -1,12 +1,6 @@
 # shellcheck shell=bash
 
-zigSetEnvVars() {
-    ZIG_GLOBAL_CACHE_DIR=$(mktemp -d zig-cache.XXX)
-    export ZIG_GLOBAL_CACHE_DIR ZIG_LOCAL_CACHE_DIR="$ZIG_GLOBAL_CACHE_DIR"
-}
-
 zigAddDefaultFlags() {
-
     local buildCores=1
 
     # Parallel building is enabled by default.
@@ -31,7 +25,7 @@ zigBuildPhase() {
     concatTo flagsArray zigFlags zigFlagsArray
 
     echoCmd 'build flags' "${flagsArray[@]}"
-    TERM=dumb zig build "${flagsArray[@]}"
+    ZIG_GLOBAL_CACHE_DIR=.zig-cache TERM=dumb zig build "${flagsArray[@]}"
 
     runHook postBuild
 }
@@ -44,7 +38,7 @@ zigCheckPhase() {
     concatTo flagsArray zigFlags zigFlagsArray checkTarget=test
 
     echoCmd 'check flags' "${flagsArray[@]}"
-    TERM=dumb zig build "${flagsArray[@]}"
+    ZIG_GLOBAL_CACHE_DIR=.zig-cache TERM=dumb zig build "${flagsArray[@]}"
 
     runHook postCheck
 }
@@ -58,9 +52,6 @@ zigInstallPhase() {
 
     runHook postInstall
 }
-
-# shellcheck disable=SC2154
-addEnvHooks "$targetOffset" zigSetEnvVars
 
 if [ -z "${dontUseZigBuild-}" ] && [ -z "${buildPhase-}" ]; then
     buildPhase=zigBuildPhase
