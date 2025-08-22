@@ -69,19 +69,20 @@ Zig is also packaged in nixpkgs, so for some projects you may not even need a fl
 
 Here is a feature comparison between these options:
 
-| Feature                                   | zig-flake                                                  | nixpkgs                             | [zig-overlay]      | [zig2nix]                           |
-| ----------------------------------------- | ---------------------------------------------------------- | ----------------------------------- | ------------------ | ----------------------------------- |
-| Binary packages                           | :white_check_mark:                                         | :x:                                 | :white_check_mark: | :white_check_mark:                  |
-| Source packages                           | :x:                                                        | :white_check_mark:                  | :x:                | :white_check_mark:                  |
-| Setup hook                                | :white_check_mark:                                         | :white_check_mark:                  | :x:                | :white_check_mark:                  |
-| Dependency fetcher                        | :white_check_mark:                                         | :ballot_box_with_check:<sup>1</sup> | :x:                | :ballot_box_with_check:<sup>2</sup> |
-| Packaging helper function<sup>3</sup>     | :white_check_mark:                                         | :x:                                 | :x:                | :white_check_mark:                  |
-| Compatible with nixpkgs package names     | :white_check_mark:                                         | :white_check_mark:                  | :x:                | :x:                                 |
-| Compatible with zig-overlay package names | [:ballot_box_with_check:](#compatibility-with-zig-overlay) | :x:                                 | :white_check_mark: | :x:                                 |
+| Feature                                   | zig-flake                   | nixpkgs                     | [zig-overlay]      | [zig2nix]                   |
+| ----------------------------------------- | --------------------------- | --------------------------- | ------------------ | --------------------------- |
+| Binary packages                           | :white_check_mark:          | :x:                         | :white_check_mark: | :white_check_mark:          |
+| Source packages                           | :x:                         | :white_check_mark:          | :x:                | :white_check_mark:          |
+| Setup hook                                | :white_check_mark:          | :white_check_mark:          | :x:                | :white_check_mark:          |
+| Dependency fetcher                        | :white_check_mark:          | :ballot_box_with_check:[^1] | :x:                | :ballot_box_with_check:[^2] |
+| Packaging helper function[^3]             | :white_check_mark:          | :x:                         | :x:                | :white_check_mark:          |
+| Compatible with nixpkgs package names     | :white_check_mark:          | :white_check_mark:          | :x:                | :x:                         |
+| Compatible with zig-overlay package names | :ballot_box_with_check:[^4] | :x:                         | :white_check_mark: | :x:                         |
 
-<sup>1: the dependency fetcher provided by nixpkgs requires extra care to avoid refetching dependencies every time you change a source file</sup>
-<sup>2: zig2nix requires generating a Nix file based on your build.zig.zon. zig-flake and nixpkgs simply require keeping a single hash up to date</sup>
-<sup>3: automatically fetches dependencies and installs the setup hook, just to save a bit of boilerplate</sup>
+[^1]: the dependency fetcher provided by nixpkgs requires extra care to avoid refetching dependencies every time you change a source file
+[^2]: zig2nix requires generating a Nix file based on your build.zig.zon. zig-flake and nixpkgs simply require keeping a single hash up to date
+[^3]: automatically fetches dependencies and installs the setup hook, just to save a bit of boilerplate
+[^4]: only when using the [compatibility layer](#compatibility-with-zig-overlay)
 
 ### Compatibility with zig-overlay
 
