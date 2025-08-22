@@ -1,7 +1,7 @@
 {
+  lib,
   runCommand,
   zig,
-  lib,
 }: {
   pname ? null,
   version ? null,
@@ -17,7 +17,7 @@
       "${pname}-${version}";
 in
   runCommand "${fullName}-zig-deps" {
-    src = /${src}/build.zig.zon;
+    src = src + "/build.zig.zon";
     nativeBuildInputs = [zig];
     outputHash = hash;
     outputHashMode = "recursive";
