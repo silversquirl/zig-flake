@@ -27,5 +27,6 @@ in
     touch build.zig # just needs to exist, not actually be valid
     cp "$src" build.zig.zon
     TERM=dumb zig build --fetch
+    mkdir -p "$ZIG_GLOBAL_CACHE_DIR/p" # in case there were no deps to fetch
     cp -r "$ZIG_GLOBAL_CACHE_DIR/p" "$out"
   ''
