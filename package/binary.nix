@@ -22,18 +22,19 @@
 
       makePackage = {
         stdenv ? stdenvNoCC,
-        pname ? null,
-        version ? null,
-        name ? null,
         src,
         depsHash ? lib.fakeHash,
         nativeBuildInputs ? [],
         ...
       } @ args:
-        stdenv.mkDerivation ({
+        stdenv.mkDerivation (final:
+          {
             inherit src;
-            zigDeps = finalAttrs.passthru.fetchDeps {
-              inherit pname version name src;
+            zigDeps = args.zigDeps or finalAttrs.passthru.fetchDeps {
+              inherit (final) src;
+              name = final.name or null;
+              pname = final.pname or null;
+              version = final.version or null;
               hash = depsHash;
             };
             nativeBuildInputs = nativeBuildInputs ++ [zig];
