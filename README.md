@@ -69,20 +69,24 @@ Zig is also packaged in nixpkgs, so for some projects you may not even need a fl
 
 Here is a feature comparison between these options:
 
-| Feature                                   | zig-flake                   | nixpkgs                     | [zig-overlay]      | [zig2nix]                   |
-| ----------------------------------------- | --------------------------- | --------------------------- | ------------------ | --------------------------- |
-| Binary packages                           | :white_check_mark:          | :x:                         | :white_check_mark: | :white_check_mark:          |
-| Source packages                           | :x:                         | :white_check_mark:          | :x:                | :white_check_mark:          |
-| Setup hook                                | :white_check_mark:          | :white_check_mark:          | :x:                | :white_check_mark:          |
-| Dependency fetcher                        | :white_check_mark:          | :ballot_box_with_check:[^1] | :x:                | :ballot_box_with_check:[^2] |
-| Packaging helper function[^3]             | :white_check_mark:          | :x:                         | :x:                | :white_check_mark:          |
-| Compatible with nixpkgs package names     | :white_check_mark:          | :white_check_mark:          | :x:                | :x:                         |
-| Compatible with zig-overlay package names | :ballot_box_with_check:[^4] | :x:                         | :white_check_mark: | :x:                         |
+| Feature                                       | zig-flake                        | nixpkgs                                   | [zig-overlay]      | [zig2nix]                                 |
+| --------------------------------------------- | -------------------------------- | ----------------------------------------- | ------------------ | ----------------------------------------- |
+| Binary packages                               | :white_check_mark:               | :x:                                       | :white_check_mark: | :white_check_mark:                        |
+| Source packages                               | :x:                              | :white_check_mark:                        | :x:                | :white_check_mark:                        |
+| Setup hook                                    | :white_check_mark:               | :white_check_mark:                        | :x:                | :white_check_mark:                        |
+| Dependency fetcher                            | :white_check_mark:               | :ballot_box_with_check:[^nixpkgs-fetcher] | :x:                | :ballot_box_with_check:[^zig2nix-fetcher] |
+| Packaging helper function[^helper]            | :white_check_mark:               | :x:                                       | :x:                | :white_check_mark:                        |
+| Flake templates                               | :white_check_mark:               | :x:                                       | :x:                | :white_check_mark:                        |
+| Languages used by the flake                   | Nix, Bash                        | Nix, Bash                                 | Nix                | Nix, Bash, Zig                            |
+| Flake closure size (excluding nixpkgs)[^size] | 54KiB                            | N/A                                       | 1.8MiB             | 306KiB                                    |
+| Compatible with nixpkgs package names         | :white_check_mark:               | :white_check_mark:                        | :x:                | :x:                                       |
+| Compatible with zig-overlay package names     | :ballot_box_with_check:[^compat] | :x:                                       | :white_check_mark: | :x:                                       |
 
-[^1]: the dependency fetcher provided by nixpkgs requires extra care to avoid refetching dependencies every time you change a source file
-[^2]: zig2nix requires generating a Nix file based on your build.zig.zon. zig-flake and nixpkgs simply require keeping a single hash up to date
-[^3]: automatically fetches dependencies and installs the setup hook, just to save a bit of boilerplate
-[^4]: only when using the [compatibility layer](#compatibility-with-zig-overlay)
+[^nixpkgs-fetcher]: the dependency fetcher provided by nixpkgs requires extra care to avoid refetching dependencies every time you change a source file
+[^zig2nix-fetcher]: zig2nix requires generating a Nix file based on your build.zig.zon. zig-flake and nixpkgs simply require keeping a single hash up to date
+[^helper]: automatically fetches dependencies and installs the setup hook, just to save a bit of boilerplate
+[^size]: calculated using `nix path-info --closure-size $(nix flake archive --json | jq -r 'recurse(.inputs? // empty | del(.nixpkgs)[]) | .path') | awk '{total += $2}; END {print total}' | numfmt --to=iec-i --suffix=B`
+[^compat]: only when using the [compatibility layer](#compatibility-with-zig-overlay)
 
 ### Compatibility with zig-overlay
 
