@@ -50,5 +50,16 @@
         builtins.mapAttrs package filtered;
     in
       builtins.mapAttrs (system: packages) nixpkgs.legacyPackages;
+
+    templates = {
+      default = {
+        path = ./templates/default;
+        description = "Simple Nix flake for a package using the latest stable Zig release";
+      };
+      nightly = {
+        path = ./templates/nightly;
+        description = "Nix flake with devShell, for a package using the latest Zig nightly";
+      };
+    };
   };
 }
