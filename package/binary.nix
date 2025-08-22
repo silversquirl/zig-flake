@@ -19,6 +19,26 @@
     };
     passthru = {
       fetchDeps = callPackage ./fetch-deps.nix {inherit zig;};
+
+      makePackage = {
+        stdenv ? stdenvNoCC,
+        pname ? null,
+        version ? null,
+        name ? null,
+        src,
+        depsHash ? lib.fakeHash,
+        nativeBuildInputs ? [],
+        ...
+      } @ args:
+        stdenv.mkDerivation ({
+            inherit src;
+            zigDeps = finalAttrs.passthru.fetchDeps {
+              inherit pname version name src;
+              hash = depsHash;
+            };
+            nativeBuildInputs = nativeBuildInputs ++ [zig];
+          }
+          // lib.removeAttrs args ["stdenv" "nativeBuildInputs" "depsHash"]);
     };
 
     src = zigSource;
