@@ -53,6 +53,7 @@ zigInstallPhase() {
     runHook preInstall
 
     # shellcheck disable=SC2154
+    mkdir -p "$prefix"
     mv -t "$prefix" zig-out/*
 
     runHook postInstall

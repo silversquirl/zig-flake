@@ -69,25 +69,33 @@ Zig is also packaged in nixpkgs, so for some projects you may not even need a fl
 
 Here is a feature comparison between these options:
 
-| Feature                                   | zig-flake                   | nixpkgs                     | [zig-overlay]      | [zig2nix]                   |
-| ----------------------------------------- | --------------------------- | --------------------------- | ------------------ | --------------------------- |
-| Binary packages                           | :white_check_mark:          | :x:                         | :white_check_mark: | :white_check_mark:          |
-| Source packages                           | :x:                         | :white_check_mark:          | :x:                | :white_check_mark:          |
-| Setup hook                                | :white_check_mark:          | :white_check_mark:          | :x:                | :white_check_mark:          |
-| Dependency fetcher                        | :white_check_mark:          | :ballot_box_with_check:[^1] | :x:                | :ballot_box_with_check:[^2] |
-| Packaging helper function[^3]             | :white_check_mark:          | :x:                         | :x:                | :white_check_mark:          |
-| Compatible with nixpkgs package names     | :white_check_mark:          | :white_check_mark:          | :x:                | :x:                         |
-| Compatible with zig-overlay package names | :ballot_box_with_check:[^4] | :x:                         | :white_check_mark: | :x:                         |
+| Feature                                       | zig-flake                        | nixpkgs                                   | [zig-overlay]                  | [zig2nix]                                 |
+| --------------------------------------------- | -------------------------------- | ----------------------------------------- | ------------------------------ | ----------------------------------------- |
+| Binary packages                               | :white_check_mark:               | :x:                                       | :white_check_mark:             | :white_check_mark:                        |
+| Source packages                               | :x:                              | :white_check_mark:                        | :x:                            | :white_check_mark:                        |
+| Setup hook                                    | :white_check_mark:               | :white_check_mark:                        | :x:                            | :white_check_mark:                        |
+| Dependency fetcher                            | :white_check_mark:               | :ballot_box_with_check:[^nixpkgs-fetcher] | :x:                            | :ballot_box_with_check:[^zig2nix-fetcher] |
+| Packaging helper function[^helper]            | :white_check_mark:               | :x:                                       | :x:                            | :white_check_mark:                        |
+| Flake templates                               | :white_check_mark:               | :x:                                       | :x:                            | :white_check_mark:                        |
+| Languages used by the flake                   | Nix, Bash                        | Nix, Bash                                 | Nix                            | Nix, Bash, Zig                            |
+| Dependencies (excluding nixpkgs)              | none                             | N/A                                       | flake-utils[^fu], flake-compat | flake-utils[^fu]                          |
+| Flake closure size (excluding nixpkgs)[^size] | 54KiB                            | N/A                                       | 1.8MiB                         | 306KiB                                    |
+| Compatible with nixpkgs package names         | :white_check_mark:               | :white_check_mark:                        | :x:                            | :x:                                       |
+| Compatible with zig-overlay package names     | :ballot_box_with_check:[^compat] | :x:                                       | :white_check_mark:             | :x:                                       |
 
-[^1]: the dependency fetcher provided by nixpkgs requires extra care to avoid refetching dependencies every time you change a source file
-[^2]: zig2nix requires generating a Nix file based on your build.zig.zon. zig-flake and nixpkgs simply require keeping a single hash up to date
-[^3]: automatically fetches dependencies and installs the setup hook, just to save a bit of boilerplate
-[^4]: only when using the [compatibility layer](#compatibility-with-zig-overlay)
+[^nixpkgs-fetcher]: the dependency fetcher provided by nixpkgs requires extra care to avoid refetching dependencies every time you change a source file
+[^zig2nix-fetcher]: zig2nix requires generating a Nix file based on your build.zig.zon. zig-flake and nixpkgs simply require keeping a single hash up to date
+[^helper]: automatically fetches dependencies and installs the setup hook, just to save a bit of boilerplate
+[^fu]: flake-utils provides helper functions for creating Nix flakes.
+  However, these functions are overcomplicated, and the same result can be trivially achieved using `builtins.mapAttrs`, as shown in the examples above, so it doesn't really serve any purpose.
+  Because of this, most Nix veterans I've spoken to recommend against the use of flake-utils.
+[^size]: calculated using `nix path-info --closure-size $(nix flake archive --json | jq -r 'recurse(.inputs? // empty | del(.nixpkgs)[]) | .path') | awk '{total += $2}; END {print total}' | numfmt --to=iec-i --suffix=B`
+[^compat]: only when using the [compatibility layer](#compatibility-with-zig-overlay)
 
 ### Compatibility with zig-overlay
 
 The most widely used flake for Zig is @mitchellh's [zig-overlay]. This flake uses a different package naming scheme than zig-flake (whose naming scheme is based on nixpkgs).
-In order to allow flakes that depend on zig-overlay to easily switch to zig-flake, and to allow flakes that consume other flakes to use `follows` to deduplicate dependencies,
+In order to allow flakes that depend on zig-overlay to easily switch to zig-flake, and to allow using `follows` to override dependencies' uses of zig-overlay,
 zig-flake provides a compatibility layer that exposes all its packages with additional names, matching the zig-overlay naming scheme.
 
 To use it, simply use the `compat` branch:
