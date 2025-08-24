@@ -8,11 +8,16 @@ targets=$(nix eval --json --inputs-from . --apply builtins.attrNames nixpkgs#leg
 
 echo "Fetching index.json" >&2
 index=$(curl -L https://ziglang.org/download/index.json | jq -c --argjson targets "$targets" '
+    def to_zig_targets:
+        sub("-darwin$"; "-macos") |
+        sub("i686-"; "x86-") |
+        sub("armv7l-"; "arm-", "armv7a-");
+
     with_entries(.value = (
         [
             {_date : .value.date, _version: .value.version // .key},
             $targets[] as $target | {
-                ($target): .value[$target | sub("-darwin$"; "-macos")] // empty | {
+                ($target): .value[$target | to_zig_targets] // empty | {
                     filename: .tarball | capture("/(?<f>[^/]+)$").f,
                     shasum,
                 },
