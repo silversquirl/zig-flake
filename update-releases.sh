@@ -51,37 +51,3 @@ printf '%s\n' "$comment" "$nightly" >releases/nightly.nix
 
 echo "Fetching community mirror list" >&2
 curl -Lo releases/community-mirrors.txt https://ziglang.org/download/community-mirrors.txt
-
-# Inform github actions of changes
-git diff --numstat | while IFS=$'\t' read -r add del file; do
-    # TODO: annotate with the modified line numbers
-    printf '::notice file=%s,title=%s modified::' "$file" "$file"
-    ((add > 0)) && printf '%d lines added' "$add"
-    ((add > 0 && del > 0)) && printf ', '
-    ((del > 0)) && printf '%d lines removed' "$del"
-    echo
-done
-
-echo "Generating commit message" >&2
-
-releases_commit_msg=$(
-    for f in releases/{stable,nightly}.nix; do
-        git show HEAD:"$f" | nix eval --json -f- |
-            jq --argjson new "$(nix eval --json -f "$f")" '
-                (map({(._version): true}) | add) as $old |
-                $new[]._version | if in($old) then empty end
-            '
-    done | jq -rs '"releases: add \(join(", "))"'
-)
-
-mirrors_commit_msg=$(
-    git show HEAD:releases/community-mirrors.txt |
-        jq -Rrs --rawfile new releases/community-mirrors.txt '
-            (split("\n") | map({(.): true}) | add) as $old |
-            $new | split("\n") | map(if in($old) then empty end) |
-            "mirrors: add \(join(", "))"
-        '
-)
-
-git commit -m "$releases_commit_msg" releases/{stable,nightly}.nix || :
-git commit -m "$mirrors_commit_msg" releases/community-mirrors.txt || :
