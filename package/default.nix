@@ -3,7 +3,7 @@
   hostPlatform,
   callPackage,
   zigRelease,
-  zigMirrors ? ../releases/community-mirrors.txt,
+  zigMirrors ? null,
   zigVersion ? zigRelease._version,
 }: let
   system = hostPlatform.system;
@@ -11,8 +11,8 @@ in
   lib.throwIfNot (zigRelease ? ${system}) "Zig ${zigVersion} has no binary release for ${system}"
   (callPackage ./binary.nix {
     inherit zigVersion;
-    zigSource = callPackage ./fetch.nix {
-      inherit zigMirrors;
-      zigRelease = zigRelease.${system};
-    };
+    zigSource = callPackage ./fetch.nix (
+      {zigRelease = zigRelease.${system};}
+      // lib.optionalAttrs (zigMirrors != null) {inherit zigMirrors;}
+    );
   })

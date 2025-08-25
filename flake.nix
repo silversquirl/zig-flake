@@ -45,6 +45,11 @@
         master = lib.last nightly;
       };
 
+    fetchRelease = pkgs:
+      pkgs.callPackage ./package/fetch.nix {
+        zigRelease = self.releases.${pkgs.hostPlatform.system};
+      };
+
     packages =
       builtins.mapAttrs
       (system: pkgs: let
