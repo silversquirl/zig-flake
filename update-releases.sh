@@ -37,10 +37,11 @@ printf '%s\n' "$comment" "$stable" >releases/stable.nix
 
 echo "Updating nightly.nix" >&2
 nightly=$(nix eval --json --file releases/nightly.nix | jq -cr --argjson index "$index" '
-    # Add latest nightly if it is newer than the current one
-    if .[-1]._date != $index.master._date then
-        . + [$index.master]
+    if .[-1]._date == $index.master._date then
+        .[:-1] # Give priority to the freshly generated release
     end |
+    . + [$index.master] |
+
     # Check list is sorted
     if . != sort_by(._date) then
         error("Nightly releases are not sorted")
