@@ -16,7 +16,7 @@ index=$(curl -L https://ziglang.org/download/index.json | jq -c --argjson target
     with_entries(.value = (
         [
             {_date : .value.date, _version: .value.version // .key},
-            $targets[] as $target | {
+            ($targets[], "src") as $target | {
                 ($target): .value[$target | to_zig_targets] // empty | {
                     filename: .tarball | capture("/(?<f>[^/]+)$").f,
                     shasum,
