@@ -2,8 +2,8 @@
   stdenvNoCC,
   curl,
   minisign,
-  zigMirrors,
   zigRelease,
+  zigMirrors ? ../releases/community-mirrors.txt,
 }:
 stdenvNoCC.mkDerivation {
   name = zigRelease.filename;
