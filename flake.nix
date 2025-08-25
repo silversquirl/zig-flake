@@ -31,10 +31,7 @@
         nightly = lib.last nightly;
       };
 
-    fetchRelease = pkgs:
-      pkgs.callPackage ./package/fetch.nix {
-        zigRelease = self.releases.${pkgs.hostPlatform.system};
-      };
+    fetchRelease = pkgs: pkgs.callPackage ./package/fetch.nix;
 
     packages =
       builtins.mapAttrs
