@@ -45,7 +45,7 @@
         master = lib.last nightly;
       };
 
-    fetchRelease = pkgs: pkgs.callPackage ./package/fetch.nix;
+    fetchRelease = ./package/fetch.nix;
 
     packages =
       builtins.mapAttrs
