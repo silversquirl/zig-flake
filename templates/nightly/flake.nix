@@ -15,20 +15,23 @@
     zls,
     ...
   }: let
-    forAllSystems = f: builtins.mapAttrs f nixpkgs.legacyPackages;
+    forAllSystems = f:
+      builtins.mapAttrs
+      (system: pkgs: f pkgs zig.packages.${system}.nightly)
+      nixpkgs.legacyPackages;
   in {
-    devShells = forAllSystems (system: pkgs: {
+    devShells = forAllSystems (pkgs: zig: {
       default = pkgs.mkShellNoCC {
         packages = [
           pkgs.bash
-          zig.packages.${system}.nightly
-          zls.packages.${system}.default
+          zig
+          zls.packages.${pkgs.system}.default
         ];
       };
     });
 
-    packages = forAllSystems (system: pkgs: {
-      default = zig.packages.${system}.nightly.makePackage {
+    packages = forAllSystems (pkgs: zig: {
+      default = zig.makePackage {
         pname = "zig-flake-template";
         version = "0.0.0";
         src = ./.;
