@@ -18,6 +18,7 @@
       date = zigSource._date or null;
     };
     passthru = {
+      zls = callPackage ./zls.nix {inherit zig;};
       fetchDeps = callPackage ./fetch-deps.nix {inherit zig;};
 
       makePackage = {

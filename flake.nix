@@ -54,6 +54,7 @@
           nixpkgs.lib.filterAttrs (name: rel: rel ? ${pkgs.hostPlatform.system}) self.releases;
         package = name: rel: pkgs.callPackage ./package {zigRelease = rel;};
       in
+        # TODO: expose zls packages at top level
         builtins.mapAttrs package forThisSystem)
       nixpkgs.legacyPackages;
 
