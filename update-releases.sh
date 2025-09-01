@@ -7,7 +7,7 @@ set -euo pipefail
 targets=$(nix eval --json --inputs-from . --apply builtins.attrNames nixpkgs#legacyPackages)
 
 echo "Fetching index.json" >&2
-index=$(curl -fL https://ziglang.org/download/index.json | jq -c --argjson targets "$targets" '
+index=$(curl --retry 3 -fL https://ziglang.org/download/index.json | jq -c --argjson targets "$targets" '
     def to_zig_targets:
         sub("-darwin$"; "-macos") |
         sub("i686-"; "x86-") |
@@ -50,4 +50,4 @@ nightly=$(nix eval --json --file releases/nightly.nix | jq -cr --argjson index "
 printf '%s\n' "$comment" "$nightly" >releases/nightly.nix
 
 echo "Fetching community mirror list" >&2
-curl -fLo releases/community-mirrors.txt https://ziglang.org/download/community-mirrors.txt
+curl --retry 3 -fLo releases/community-mirrors.txt https://ziglang.org/download/community-mirrors.txt
