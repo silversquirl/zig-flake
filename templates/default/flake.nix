@@ -12,7 +12,7 @@
   }: let
     forAllSystems = f:
       builtins.mapAttrs
-      (system: pkgs: f pkgs zig.packages.${system}.nightly)
+      (system: pkgs: f pkgs zig.packages.${system}.zig_0_15_1)
       nixpkgs.legacyPackages;
   in {
     devShells = forAllSystems (pkgs: zig: {
