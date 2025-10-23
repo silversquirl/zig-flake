@@ -58,6 +58,17 @@
         builtins.mapAttrs package forThisSystem)
       nixpkgs.legacyPackages;
 
+    devShells =
+      builtins.mapAttrs
+      (system:
+        builtins.mapAttrs (name: zig: let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+          pkgs.mkShellNoCC {
+            packages = [pkgs.bash zig] ++ pkgs.lib.optional (zig ? zls) zig.zls;
+          }))
+      self.packages;
+
     templates = {
       default = {
         path = ./templates/default;
