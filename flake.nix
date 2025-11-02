@@ -1,6 +1,6 @@
 {
   description = "A Nix flake for the Zig programming language";
-  inputs.nixpkgs.url = "nixpkgs";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   outputs = {
     self,
     nixpkgs,
@@ -37,7 +37,7 @@
       builtins.mapAttrs
       (system: pkgs: let
         forThisSystem =
-          nixpkgs.lib.filterAttrs (name: rel: rel ? ${pkgs.hostPlatform.system}) self.releases;
+          nixpkgs.lib.filterAttrs (name: rel: rel ? ${pkgs.stdenv.hostPlatform.system}) self.releases;
         package = name: rel: pkgs.callPackage ./package {zigRelease = rel;};
       in
         # TODO: expose zls packages at top level
