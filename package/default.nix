@@ -1,12 +1,12 @@
 {
   lib,
-  hostPlatform,
+  stdenvNoCC,
   callPackage,
   zigRelease,
   zigMirrors ? null,
   zigVersion ? zigRelease._version,
 }: let
-  system = hostPlatform.system;
+  system = stdenvNoCC.hostPlatform.system;
 in
   lib.throwIfNot (zigRelease ? ${system}) "Zig ${zigVersion} has no binary release for ${system}"
   (callPackage ./binary.nix {

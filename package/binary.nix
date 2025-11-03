@@ -3,7 +3,6 @@
   lib,
   stdenvNoCC,
   callPackage,
-  hostPlatform,
   coreutils,
   xcbuild,
   zigSource,
@@ -46,8 +45,8 @@
     src = zigSource;
 
     # xcbuild provides xcode-select, which is required for SDK detection on macos
-    buildInputs = lib.optional hostPlatform.isDarwin xcbuild;
-    propagatedBuildInputs = lib.optional hostPlatform.isDarwin xcbuild;
+    buildInputs = lib.optional stdenvNoCC.hostPlatform.isDarwin xcbuild;
+    propagatedBuildInputs = lib.optional stdenvNoCC.hostPlatform.isDarwin xcbuild;
 
     # zig-flake's setup hook only supports Zig 0.12 or later due to using `--release`
     # TODO: print an error in the setup hook, rather than silently disabling it
@@ -69,7 +68,7 @@
       # Note that while this fix is already merged upstream and will be included in 0.14+,
       # we can't fetchpatch the upstream commit as it won't cleanly apply on older versions,
       # so we substitute the paths instead.
-      + lib.optionalString (hostPlatform.isDarwin && lib.versionOlder finalAttrs.version "0.14") ''
+      + lib.optionalString (stdenvNoCC.hostPlatform.isDarwin && lib.versionOlder finalAttrs.version "0.14") ''
         substituteInPlace lib/std/zig/system/darwin.zig \
           --replace /usr/bin/xcrun xcrun \
           --replace /usr/bin/xcode-select xcode-select
