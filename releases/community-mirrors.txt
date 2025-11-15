@@ -9,5 +9,5 @@ https://ziglang.freetls.fastly.net
 https://zig.tilok.dev
 https://zig-mirror.tsimnet.eu/zig
 https://zig.karearl.com/zig
-https://mirror.govorov.online/zig
+https://pkg.earth/zig
 https://fs.liujiacai.net/zigbuilds
