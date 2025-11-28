@@ -59,7 +59,22 @@ tryDownload() {
     return 0
 }
 
-echo "loading mirrors from $mirrorFile"
+if [[ -n ${mirrorUrl} ]]; then
+    if curlRetry "$mirrorUrl$urlQuery" --output "$TMPDIR/community-mirrors.txt"; then
+        echo "downloaded mirror list from $mirrorUrl"
+        mirrorFile="$TMPDIR/community-mirrors.txt"
+    else
+        echo "failed to download mirror list from $mirrorUrl"
+    fi
+fi
+
+if [[ -n ${mirrorFile} ]]; then
+    echo "loading mirrors from $mirrorFile"
+else
+    echo "no mirror list available"
+    return 111
+fi
+
 shuf <"$mirrorFile" | while read -r mirror; do
     tryDownload "$mirror" && break
 done
