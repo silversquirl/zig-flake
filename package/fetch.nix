@@ -3,14 +3,15 @@
   curl,
   minisign,
   zigRelease,
-  zigMirrors ? ../releases/community-mirrors.txt,
+  mirrorUrl,
+  mirrorFile,
 }:
 stdenvNoCC.mkDerivation {
   name = zigRelease.filename;
   builder = ./fetch_builder.sh;
   nativeBuildInputs = [curl minisign];
 
-  mirrorFile = zigMirrors;
+  inherit mirrorUrl mirrorFile;
   inherit (zigRelease) filename;
   urlQuery = "?source=silversquirl/zig-flake";
   minisignPublicKey = "RWSGOq2NVecA2UPNdBUZykf1CCb147pkmdtYxgb3Ti+JO/wCYvhbAb/U";
