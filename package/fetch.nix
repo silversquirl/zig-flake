@@ -3,8 +3,8 @@
   curl,
   minisign,
   zigRelease,
-  mirrorUrl,
-  mirrorFile,
+  mirrorUrl ? "https://ziglang.org/download/community-mirrors.txt",
+  mirrorFile ? ../releases/community-mirrors.txt,
 }:
 stdenvNoCC.mkDerivation {
   name = zigRelease.filename;
