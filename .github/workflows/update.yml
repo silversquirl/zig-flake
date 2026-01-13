@@ -53,7 +53,15 @@ jobs:
                           (map({(._version): true}) | add) as $old |
                           $new[]._version | if in($old) then empty end
                       '
-              done | jq -rs '"releases: add \(join(", "))"'
+              done | jq -rs '"releases: add zig \(join(", "))"'
+          )
+          zls_commit_msg=$(
+              git show HEAD:"$f" | nix eval --json -f- |
+                  jq --argjson new "$(nix eval --json -f "$f")" '
+                      (map({(._version): true}) | add) as $old |
+                      $new[]._version | if in($old) then empty end |
+                      "releases: add zig \(join(", "))"
+                  '
           )
 
           mirrors_commit_msg=$(
@@ -66,6 +74,7 @@ jobs:
           )
 
           git commit -m "$releases_commit_msg" releases/{stable,nightly}.nix || :
+          git commit -m "$zls_commit_msg" releases/zls.nix || :
           git commit -m "$mirrors_commit_msg" releases/community-mirrors.txt || :
 
       - run: git push

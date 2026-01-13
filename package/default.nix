@@ -17,4 +17,12 @@ in
       mirrorUrl = zigMirrorUrl;
       mirrorFile = zigMirrorFile;
     };
+    zls =
+      if zigRelease._zls or null == null
+      then (builtins.throw "no ZLS version available for Zig ${zigRelease._version}")
+      else
+        callPackage ./zls.nix {
+          zlsVersion = zigRelease._zls._version;
+          zlsRelease = zigRelease._zls.${system};
+        };
   })

@@ -7,6 +7,7 @@
   xcbuild,
   zigSource,
   zigVersion,
+  zls,
 }: let
   zig = stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "zig";
@@ -17,7 +18,7 @@
       date = zigSource._date or null;
     };
     passthru = {
-      zls = callPackage ./zls.nix {inherit zig;};
+      inherit zls;
       fetchDeps = callPackage ./fetch-deps.nix {inherit zig;};
 
       makePackage = {
