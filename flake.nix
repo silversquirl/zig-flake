@@ -11,15 +11,26 @@
       stable = import ./releases/stable.nix;
       nightly = import ./releases/nightly.nix;
 
-      named = release: {
+      named = release: let
+        matchesVersion = zls:
+          builtins.compareVersions
+          (lib.versions.majorMinor release._version)
+          (lib.versions.majorMinor zls._version)
+          == 0;
+        zlsFallbacks = builtins.filter matchesVersion (import ./releases/zls.nix);
+        zlsFallback =
+          if zlsFallbacks == []
+          then null
+          else lib.last zlsFallbacks;
+      in {
         name =
           "zig_"
           + lib.pipe release._version [
-            lib.versions.splitVersion # parse version
+            builtins.splitVersion # parse version
             (lib.sublist 0 5) # strip commit hash
             (lib.concatStringsSep "_") # recombine
           ];
-        value = release;
+        value = {_zls = zlsFallback;} // release;
       };
 
       compatNamed = {

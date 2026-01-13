@@ -46,27 +46,8 @@ jobs:
               echo
           done
 
-          releases_commit_msg=$(
-              for f in releases/{stable,nightly}.nix; do
-                  git show HEAD:"$f" | nix eval --json -f- |
-                      jq --argjson new "$(nix eval --json -f "$f")" '
-                          (map({(._version): true}) | add) as $old |
-                          $new[]._version | if in($old) then empty end
-                      '
-              done | jq -rs '"releases: add \(join(", "))"'
-          )
-
-          mirrors_commit_msg=$(
-              git show HEAD:releases/community-mirrors.txt |
-                  jq -Rrs --rawfile new releases/community-mirrors.txt '
-                      (split("\n") | map({(.): true}) | add) as $old |
-                      $new | split("\n") | map(if in($old) then empty end) |
-                      "mirrors: add \(join(", "))"
-                  '
-          )
-
-          git commit -m "$releases_commit_msg" releases/{stable,nightly}.nix || :
-          git commit -m "$mirrors_commit_msg" releases/community-mirrors.txt || :
+          commit_msg=$(git diff --name-only -- releases | jq -Rr '"update: \(join(","))"')
+          git commit -m "$releases_commit_msg" releases || :
 
       - run: git push
 
