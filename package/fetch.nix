@@ -13,7 +13,7 @@ stdenvNoCC.mkDerivation {
 
   inherit mirrorUrl mirrorFile;
   inherit (zigRelease) filename;
-  urlQuery = "?source=silversquirl/zig-flake";
+  urlQuery = "?source=https://github.com/silversquirl/zig-flake";
   minisignPublicKey = "RWSGOq2NVecA2UPNdBUZykf1CCb147pkmdtYxgb3Ti+JO/wCYvhbAb/U";
 
   outputHash = zigRelease.shasum;

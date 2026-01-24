@@ -6,8 +6,10 @@ set -euo pipefail
 # Query supported targets
 targets=$(nix eval --json --inputs-from . --apply builtins.attrNames nixpkgs#legacyPackages)
 
+source='https://github.com/silversquirl/zig-flake'
+
 echo "Fetching zig index.json" >&2
-index=$(curl --retry 3 -fL https://ziglang.org/download/index.json | jq -c --argjson targets "$targets" '
+index=$(curl --retry 3 -fL "https://ziglang.org/download/index.json?source=$source" | jq -c --argjson targets "$targets" '
     def to_zig_targets:
         sub("-darwin$"; "-macos") |
         sub("i686-"; "x86-") |
@@ -27,7 +29,7 @@ index=$(curl --retry 3 -fL https://ziglang.org/download/index.json | jq -c --arg
 ')
 
 echo "Fetching zls index.json" >&2
-zls_index=$(curl --retry 3 -fL https://builds.zigtools.org/index.json | jq -c --argjson targets "$targets" '
+zls_index=$(curl --retry 3 -fL "https://builds.zigtools.org/index.json?source=$source" | jq -c --argjson targets "$targets" '
     def to_zig_targets:
         sub("-darwin$"; "-macos") |
         sub("i686-"; "x86-") |
@@ -45,7 +47,7 @@ zls_index=$(curl --retry 3 -fL https://builds.zigtools.org/index.json | jq -c --
 
 echo "Fetching zls for latest nightly" >&2
 zls_nightly_url=$(jq -r '
-    @uri "https://releases.zigtools.org/v1/zls/select-version?zig_version=\(.master._version)&compatibility=only-runtime"
+    @uri "https://releases.zigtools.org/v1/zls/select-version?zig_version=\(.master._version)&compatibility=only-runtime&source=$source"
 ' <<<"$index")
 echo "$zls_nightly_url"
 zls_nightly=$(curl --retry 3 -fl "$zls_nightly_url" | jq -c --argjson targets "$targets" '
@@ -94,4 +96,4 @@ nightly=$(nix eval --json --file releases/nightly.nix | jq -cr --argjson index "
 printf '%s\n' "$comment" "$nightly" >releases/nightly.nix
 
 echo "Fetching community mirror list" >&2
-curl --retry 3 -fLo releases/community-mirrors.txt https://ziglang.org/download/community-mirrors.txt
+curl --retry 3 -fLo releases/community-mirrors.txt "https://ziglang.org/download/community-mirrors.txt?source=$source"
