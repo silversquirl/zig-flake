@@ -47,7 +47,7 @@ zls_index=$(curl --retry 3 -fL "https://builds.zigtools.org/index.json?source=$s
 
 echo "Fetching zls for latest nightly" >&2
 zls_nightly_url=$(jq -r '
-    @uri "https://releases.zigtools.org/v1/zls/select-version?zig_version=\(.master._version)&compatibility=only-runtime&source=$source""
+    @uri "https://releases.zigtools.org/v1/zls/select-version?zig_version=\(.master._version)&compatibility=only-runtime&source=$source"
 ' <<<"$index")
 echo "$zls_nightly_url"
 zls_nightly=$(curl --retry 3 -fl "$zls_nightly_url" | jq -c --argjson targets "$targets" '
