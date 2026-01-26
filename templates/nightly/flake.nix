@@ -1,18 +1,13 @@
 {
   inputs = {
     nixpkgs.url = "nixpkgs";
-    zig.url = "github:silversquirl/zig-flake/compat";
-    zls.url = "github:zigtools/zls";
-
+    zig.url = "github:silversquirl/zig-flake";
     zig.inputs.nixpkgs.follows = "nixpkgs";
-    zls.inputs.nixpkgs.follows = "nixpkgs";
-    zls.inputs.zig-overlay.follows = "zig";
   };
 
   outputs = {
     nixpkgs,
     zig,
-    zls,
     ...
   }: let
     forAllSystems = f:
@@ -22,11 +17,7 @@
   in {
     devShells = forAllSystems (pkgs: zig: {
       default = pkgs.mkShellNoCC {
-        packages = [
-          pkgs.bash
-          zig
-          zls.packages.${pkgs.system}.default
-        ];
+        packages = [pkgs.bash zig zig.zls];
       };
     });
 
