@@ -47,7 +47,7 @@ jobs:
           done
 
           commit_msg=$(git diff --name-only -- releases | jq -Rrs '"update: \(gsub("\n"; ","))"')
-          git commit -m "$releases_commit_msg" releases || :
+          git commit -m "$commit_msg" releases || :
 
       - run: git push
 
