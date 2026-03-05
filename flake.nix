@@ -8,10 +8,7 @@
     releases = let
       inherit (nixpkgs) lib;
 
-      stable = import ./releases/stable.nix;
-      nightly = import ./releases/nightly.nix;
-
-      named = release: let
+      addZls = release: let
         matchesVersion = zls:
           builtins.compareVersions
           (lib.versions.majorMinor release._version)
@@ -22,7 +19,13 @@
           if zlsFallbacks == []
           then null
           else lib.last zlsFallbacks;
-      in {
+      in
+        {_zls = zlsFallback;} // release;
+
+      stable = map addZls (import ./releases/stable.nix);
+      nightly = map addZls (import ./releases/nightly.nix);
+
+      named = release: {
         name =
           "zig_"
           + lib.pipe release._version [
@@ -30,7 +33,7 @@
             (lib.sublist 0 5) # strip commit hash
             (lib.concatStringsSep "_") # recombine
           ];
-        value = {_zls = zlsFallback;} // release;
+        value = release;
       };
 
       compatNamed = {
@@ -45,8 +48,7 @@
       };
     in
       builtins.listToAttrs (
-        map named stable
-        ++ map named nightly
+        map named (stable ++ nightly)
         ++ map compatNamed.stable stable
         ++ map compatNamed.nightly nightly
       )
