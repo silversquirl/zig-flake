@@ -8,3 +8,4 @@ https://zig.tilok.dev
 https://zig-mirror.tsimnet.eu/zig
 https://zig.karearl.com/zig
 https://fs.liujiacai.net/zigbuilds
+https://zigmirror.com
