@@ -7820,35 +7820,35 @@
     _date = "2026-05-03";
     _version = "0.17.0-dev.248+95507faf1";
     _zls = {
-      _date = "2026-04-30";
-      _version = "0.17.0-dev.13+113f79a1";
+      _date = "2026-05-05";
+      _version = "0.17.0-dev.21+5767f2f1";
       aarch64-darwin = {
-        shasum = "e4e803534bf1e05fbb1b211fab6983880e67256fd46e361c63f27836009d22c7";
-        tarball = "https://builds.zigtools.org/zls-aarch64-macos-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "0363406fe2e7af3f8758e345f4693d954feac7b619e4c2632b1f95c918eead00";
+        tarball = "https://builds.zigtools.org/zls-aarch64-macos-0.17.0-dev.21+5767f2f1.tar.xz";
       };
       aarch64-linux = {
-        shasum = "889a1a2ca70398cbf6e6edf671013c6749cba70e3db90951813ec2df0eb81f34";
-        tarball = "https://builds.zigtools.org/zls-aarch64-linux-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "27e44962b09bf5e8629edd46244bb9c0c8791a36fc4abfeb4f2fc0d34660474e";
+        tarball = "https://builds.zigtools.org/zls-aarch64-linux-0.17.0-dev.21+5767f2f1.tar.xz";
       };
       armv7l-linux = {
-        shasum = "699863131c9771322840c3cef9d08a347a3005d774cbd863b9dd344f453a859c";
-        tarball = "https://builds.zigtools.org/zls-arm-linux-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "b52c420570aa1d9c12ccb7194cb55eb97dede7226e6547bfcb7a45dacf30c4a0";
+        tarball = "https://builds.zigtools.org/zls-arm-linux-0.17.0-dev.21+5767f2f1.tar.xz";
       };
       i686-linux = {
-        shasum = "b135c6d4d2692bc1bc3c9b9c99caf9113b16c3e269657f24d8ab9d18f3fbeb4e";
-        tarball = "https://builds.zigtools.org/zls-x86-linux-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "62f6db7d87fbfa08924acd2bdb5a953c3fd47050f96b6a4ff10322bb3552e13f";
+        tarball = "https://builds.zigtools.org/zls-x86-linux-0.17.0-dev.21+5767f2f1.tar.xz";
       };
       riscv64-linux = {
-        shasum = "243e591a506285809a74ed57571f13a5fa2fbddd318992b8a64668677461bb57";
-        tarball = "https://builds.zigtools.org/zls-riscv64-linux-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "23a37ccdccb9ba3f9cdeff439857ef7967015e71b0a845372a77da7dd2aae8ed";
+        tarball = "https://builds.zigtools.org/zls-riscv64-linux-0.17.0-dev.21+5767f2f1.tar.xz";
       };
       x86_64-darwin = {
-        shasum = "c619f99412571628805743b1c26ffeb1041a5f1925461e9c5169907b684a80a3";
-        tarball = "https://builds.zigtools.org/zls-x86_64-macos-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "8ec9f5720a634efed800f8887c3616f3e1fc87c6b9f805a14d0b69ae9546f0c7";
+        tarball = "https://builds.zigtools.org/zls-x86_64-macos-0.17.0-dev.21+5767f2f1.tar.xz";
       };
       x86_64-linux = {
-        shasum = "15e703d4e951d6dca8824250e2bdc8a41bf04b707389d74f75d82f8e8b4b03ad";
-        tarball = "https://builds.zigtools.org/zls-x86_64-linux-0.17.0-dev.13+113f79a1.tar.xz";
+        shasum = "16996c48fc24adaa3b26249d7c1dba0aa5eea10db15d6c1bba7c7f3c1bab7fd2";
+        tarball = "https://builds.zigtools.org/zls-x86_64-linux-0.17.0-dev.21+5767f2f1.tar.xz";
       };
     };
     aarch64-darwin = {
