@@ -17721,4 +17721,49 @@
       shasum = "459786723940a29c19658d7d34572dfe87bd1ab933d9286d3b51fb5656e3eb17";
     };
   }
+  {
+    _date = "2026-10-14";
+    _version = "0.18.0-dev.253+16d31ceed";
+    _zls = null;
+    aarch64-darwin = {
+      filename = "zig-aarch64-macos-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "422a59788143e54371949562374711ad8ef0fc093d357e27b75fd00239458251";
+    };
+    aarch64-linux = {
+      filename = "zig-aarch64-linux-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "e54055e7ccc95da370af9124c499ed55c3680aecdd2c0bdb9ec41f2a17a0d55c";
+    };
+    armv7l-linux = {
+      filename = "zig-arm-linux-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "198b1ea72e9d486e7e5cf08403b326bf1bf0ffdda33e1e406c39530c3abb3e89";
+    };
+    i686-linux = {
+      filename = "zig-x86-linux-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "a6f5cb7b3dffb09f057754b5a2f88caa75af0e2d7b56cb8d5ef29341f2755503";
+    };
+    powerpc64le-linux = {
+      filename = "zig-powerpc64le-linux-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "2acc3bca064ac62fa56699cc2be3f63613118637a05a12aeed5e9f887960fb29";
+    };
+    riscv64-linux = {
+      filename = "zig-riscv64-linux-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "11904d5f2f02267aac0cd2e77d454a84b622d072b23a666634624e237328aae2";
+    };
+    src = {
+      filename = "zig-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "2151febadf2d96b13ee3114ada03f35920ec3dddaf0002bf31810a53ddafc1c3";
+    };
+    x86_64-darwin = {
+      filename = "zig-x86_64-macos-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "cf7ee94438fe0ccf527b8c2d13fa2f51a6ab44cb1aeabe52220fdf12e539f089";
+    };
+    x86_64-freebsd = {
+      filename = "zig-x86_64-freebsd-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "48a4ad8d6dd86749b395fe73f6bbf839175a3a271ad3ba284cf736a402998ad3";
+    };
+    x86_64-linux = {
+      filename = "zig-x86_64-linux-0.18.0-dev.253+16d31ceed.tar.xz";
+      shasum = "67dc7ad4c493945b0d68bb8691849c233d3ee7afaca0c43038e4f4d5e6cbe40d";
+    };
+  }
 ]
