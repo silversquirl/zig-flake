@@ -8,6 +8,7 @@
   zigSource,
   zigVersion,
   zls,
+  patchEnv,
 }: let
   zig = stdenvNoCC.mkDerivation (finalAttrs: {
     pname = "zig";
@@ -59,7 +60,7 @@
     postPatch =
       # Zig's build looks at /usr/bin/env to find dynamic linking info. This doesn't
       # work in Nix's sandbox. Use env from our coreutils instead.
-      ''
+      lib.optionalString patchEnv ''
         substituteInPlace lib/std/zig/system.zig \
           --replace "/usr/bin/env" "${lib.getExe' coreutils "env"}"
       ''
